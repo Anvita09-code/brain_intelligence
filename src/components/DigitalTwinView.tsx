@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTelemetry } from "@/context/TelemetryContext";
+import { useTelemetry } from "@/contexts/TelemetryContext";
 import { Activity, Gauge, ShieldAlert } from "lucide-react";
 
 export const DigitalTwinView: React.FC = () => {

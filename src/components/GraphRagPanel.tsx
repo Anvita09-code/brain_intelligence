@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useTelemetry } from "@/context/TelemetryContext";
+import { useTelemetry } from "@/contexts/TelemetryContext";
 import { Search, Database, Share2, HelpCircle, ArrowRight } from "lucide-react";
 
 interface GraphNode {

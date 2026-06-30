@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
+import "@/styles/globals.css";
+import { GlobalProviders } from "@/providers/GlobalProviders";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -30,8 +31,10 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
       data-theme="dark"
     >
-      <body className="min-h-full bg-industrial-bg-dark text-industrial-bg-light font-sans selection:bg-industrial-status-warning selection:text-industrial-bg-highContrast">
-        {children}
+      <body className="min-h-full bg-industrial-bg-dark text-industrial-bg-light font-sans selection:bg-industrial-status-warning selection:text-industrial-bg-highContrast flex flex-col">
+        <GlobalProviders>
+          {children}
+        </GlobalProviders>
       </body>
     </html>
   );
