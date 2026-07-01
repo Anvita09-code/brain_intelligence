@@ -1,9 +1,10 @@
-import { Loader } from "@/components/feedback/Loader";
+import React from 'react';
+import Loader from '@/components/feedback/Loader';
 
-export default function RootLoading() {
+export default function GlobalLoadingPage() {
   return (
-    <div className="flex-grow flex items-center justify-center min-h-screen bg-industrial-bg-dark">
-      <Loader text="LOADING ENTERPRISE SYSTEM BOOTLOADER..." size="lg" />
+    <div className="w-screen h-screen bg-industrial-bg flex items-center justify-center">
+      <Loader />
     </div>
   );
 }

@@ -1,17 +1,39 @@
-import React from "react";
+'use client';
+
+import React from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export interface LoaderProps {
+  /** Optional status copy for route-level or panel-level loading states. */
   text?: string;
-  size?: "sm" | "md" | "lg";
+  /** Maintains compatibility with existing imports that passed a Loader size. */
+  size?: 'sm' | 'md' | 'lg';
 }
 
-export const Loader: React.FC<LoaderProps> = ({ text = "INITIALIZING TELEMETRY STREAM...", size = "md" }) => {
-  const spinSize = size === "sm" ? "w-4 h-4 border-2" : size === "lg" ? "w-8 h-8 border-4" : "w-6 h-6 border-2";
+const loaderSizeMap: Record<NonNullable<LoaderProps['size']>, number> = {
+  sm: 24,
+  md: 32,
+  lg: 40,
+};
 
+export default function Loader({
+  text = 'POLLING PLATFORM EDGE DATASTREAM...',
+  size = 'md',
+}: LoaderProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-md gap-sm font-mono text-xs text-industrial-status-warning">
-      <div className={`${spinSize} border-industrial-status-warning border-t-transparent rounded-full animate-spin`} />
-      <span className="animate-pulse tracking-widest">{text}</span>
+    <div className="w-full h-48 flex items-center justify-center bg-transparent">
+      <div className="flex flex-col items-center gap-3">
+        <CircularProgress
+          size={loaderSizeMap[size]}
+          thickness={4.5}
+          className="text-industrial-blue"
+        />
+        <span className="text-xs font-mono tracking-widest text-industrial-slate animate-pulse text-center">
+          {text}
+        </span>
+      </div>
     </div>
   );
-};
+}
+
+export { Loader };
