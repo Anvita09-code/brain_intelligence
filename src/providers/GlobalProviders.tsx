@@ -3,7 +3,6 @@
 import React from "react";
 import { TelemetryProvider } from "@/contexts/TelemetryContext";
 import { SidebarProvider } from "@/contexts/SidebarContext";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -42,15 +41,15 @@ const industrialTheme = createTheme({
 
 export const GlobalProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <AppRouterCacheProvider options={{ key: 'mui' }}>
-      <ThemeProvider theme={industrialTheme}>
-        <CssBaseline />
-        <TelemetryProvider>
-          <SidebarProvider>
-            {children}
-          </SidebarProvider>
-        </TelemetryProvider>
-      </ThemeProvider>
-    </AppRouterCacheProvider>
+    <ThemeProvider theme={industrialTheme}>
+      <CssBaseline />
+      <TelemetryProvider>
+        <SidebarProvider>
+          {children}
+        </SidebarProvider>
+      </TelemetryProvider>
+    </ThemeProvider>
   );
 };
+
+export default GlobalProviders;
