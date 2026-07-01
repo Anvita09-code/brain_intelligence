@@ -1,8 +1,6 @@
-export const isValidEmail = (email: string): boolean => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-};
+import { z } from 'zod';
 
-export const isValidEndpoint = (url: string): boolean => {
-  return url.startsWith("ws://") || url.startsWith("wss://") || url.startsWith("http://") || url.startsWith("https://");
-};
+export const loginSchema = z.object({
+  username: z.string().min(3, { message: 'Operational identification token must contain 3+ characters.' }),
+  password: z.string().min(8, { message: 'Security credentials must contain 8+ characters.' }),
+});
