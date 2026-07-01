@@ -5,6 +5,10 @@ export const APP_VERSION = "2.4.0-ENTERPRISE";
 
 export const DEFAULT_WS_URL = process.env.NEXT_PUBLIC_WS_URL || "wss://stream.iob.enterprise.internal/v1";
 
+// Section 7 — Decoupled Network Layer: single source of truth for the
+// localStorage key the request interceptor reads the bearer token from.
+export const AUTH_TOKEN_KEY = "iob_auth_token";
+
 export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", iconName: "LayoutDashboard" },
   { label: "Assets", href: "/assets", iconName: "Cpu", badge: "Live" },
