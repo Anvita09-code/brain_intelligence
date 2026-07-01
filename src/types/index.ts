@@ -84,3 +84,10 @@ export interface ApiResponse<T = any> {
   message?: string;
   timestamp: string;
 }
+
+// Section 8 Service Interface Mapping Type Aliases
+export type Alert = AnomalyAlert;
+export type Prediction = PredictionModel;
+export type Knowledge = KnowledgeNode;
+export type Chat = ChatMessage;
+export type User = UserProfile;

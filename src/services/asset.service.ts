@@ -1,26 +1,29 @@
-import { apiClient } from "@/api";
-import { Asset } from "@/types";
+import { apiClient } from '@/api';
+import { Asset } from '@/types';
 
 /**
- * Section 7 wiring: real calls go through the decoupled `apiClient` (which
- * carries the bearer token + normalized error handling from
- * `src/api/interceptors.ts`). If the industrial backend isn't reachable yet
- * (e.g. local/demo mode, `NEXT_PUBLIC_API_URL` unset), we fall back to the
- * previous empty/mock behavior instead of crashing the dashboard.
+ * Section 8 Service Interface Mapping: AssetService
+ * Integrated with existing Section 7 decoupled network layer (apiClient).
  */
-export const assetService = {
-  getAssets: async (): Promise<Asset[]> => {
+export const AssetService = {
+  /**
+   * TODO: Bind to API endpoint /api/v1/assets during Phase 2.
+   */
+  async getAssets(): Promise<Asset[]> {
     try {
-      return await apiClient.get<Asset[]>("/assets");
+      return await apiClient.get<Asset[]>('/api/v1/assets');
     } catch {
       return [];
     }
   },
-  getAssetById: async (id: string): Promise<Asset | null> => {
+  async getAssetById(id: string): Promise<Asset | null> {
     try {
-      return await apiClient.get<Asset>(`/assets/${id}`);
+      return await apiClient.get<Asset>(`/api/v1/assets/${id}`);
     } catch {
       return null;
     }
   },
 };
+
+// Backwards-compatible alias for existing Section 7 repo wiring
+export const assetService = AssetService;
