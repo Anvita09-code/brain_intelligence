@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val: T) => T)) => void] {
   const [storedValue, setStoredValue] = useState<T>(initialValue);
@@ -12,7 +12,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
         setStoredValue(JSON.parse(item));
       }
     } catch (error) {
-      console.warn(`[useLocalStorage] Error reading localStorage key "${key}":`, error);
+      console.error(`Error parsing localStorage key "${key}":`, error);
     }
   }, [key]);
 
@@ -20,11 +20,11 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      if (typeof window !== "undefined") {
+      if (typeof window !== 'undefined') {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
-      console.warn(`[useLocalStorage] Error setting localStorage key "${key}":`, error);
+      console.error(`Error writing localStorage key "${key}":`, error);
     }
   };
 

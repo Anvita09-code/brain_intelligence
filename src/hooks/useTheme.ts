@@ -1,27 +1,37 @@
-"use client";
+'use client';
 
-import { useLocalStorage } from "./useLocalStorage";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { useTheme as useMuiTheme } from '@mui/material/styles';
+import { useLocalStorage } from './useLocalStorage';
 
-export type Theme = "dark" | "light" | "high-contrast";
+export type Theme = 'dark' | 'light' | 'high-contrast';
 
-export const useTheme = () => {
-  const [theme, setTheme] = useLocalStorage<Theme>("iob_theme", "dark");
+export function useTheme() {
+  const muiTheme = useMuiTheme();
+  const [themeMode, setThemeMode] = useLocalStorage<Theme>('iob_theme', 'dark');
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
+    if (typeof document === 'undefined') return;
     const root = document.documentElement;
-    root.setAttribute("data-theme", theme);
-    if (theme === "dark") {
-      root.classList.add("dark");
+    root.setAttribute('data-theme', themeMode);
+    if (themeMode === 'dark') {
+      root.classList.add('dark');
     } else {
-      root.classList.remove("dark");
+      root.classList.remove('dark');
     }
-  }, [theme]);
+  }, [themeMode]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    setThemeMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  return { theme, setTheme, toggleTheme };
-};
+  return {
+    // Section 9 core architectural base hooks contract
+    theme: muiTheme,
+    isDark: muiTheme?.palette?.mode === 'dark' || themeMode === 'dark',
+    // Legacy integration wiring & backwards compatibility
+    themeMode,
+    setTheme: setThemeMode,
+    toggleTheme,
+  };
+}
