@@ -23,7 +23,7 @@ import { AUTH_TOKEN_KEY } from "@/utils/constants";
 export function requestInterceptor(
   config: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig {
-  const token = storage.get<string | null>(AUTH_TOKEN_KEY, null);
+  const token = storage.get(AUTH_TOKEN_KEY);
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }

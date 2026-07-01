@@ -1,33 +1,47 @@
 import { apiClient } from '@/api';
-import { Knowledge, KnowledgeNode } from '@/types';
+import { Knowledge } from '@/types';
 
-const MOCK_GRAPH: KnowledgeNode[] = [
+const MOCK_GRAPH: Knowledge[] = [
   {
-    id: 'node-1',
+    nodeId: 'node-1',
     label: 'Turbine Bearing Assembly',
-    category: 'Component',
-    connections: ['node-2', 'node-3'],
-    snippet: 'Journal bearing specification ISO-10816 threshold limits.',
+    properties: {
+      category: 'Component',
+      snippet: 'Journal bearing specification ISO-10816 threshold limits.',
+    },
+    edges: [
+      { relationship: 'connected_to', targetId: 'node-2' },
+      { relationship: 'connected_to', targetId: 'node-3' },
+    ],
   },
   {
-    id: 'node-2',
+    nodeId: 'node-2',
     label: 'Harmonic Vibration Spike',
-    category: 'FailureMode',
-    connections: ['node-1'],
-    snippet: 'Occurs when lubrication film degrades below 12 microns.',
+    properties: {
+      category: 'FailureMode',
+      snippet: 'Occurs when lubrication film degrades below 12 microns.',
+    },
+    edges: [
+      { relationship: 'connected_to', targetId: 'node-1' },
+    ],
   },
   {
-    id: 'node-3',
+    nodeId: 'node-3',
     label: 'Emergency Shutdown SOP-109',
-    category: 'SOP',
-    connections: ['node-1'],
-    snippet: 'Trip fuel valve solenoid immediately upon casing temp > 90C.',
+    properties: {
+      category: 'SOP',
+      snippet: 'Trip fuel valve solenoid immediately upon casing temp > 90C.',
+    },
+    edges: [
+      { relationship: 'connected_to', targetId: 'node-1' },
+    ],
   },
 ];
 
 /**
  * Section 8 Service Interface Mapping: KnowledgeService
  * Integrated with existing Section 7 decoupled network layer (apiClient).
+ * Conformed to Section 11 Strict Shared TypeScript Layouts.
  */
 export const KnowledgeService = {
   /**
@@ -40,9 +54,9 @@ export const KnowledgeService = {
       return MOCK_GRAPH;
     }
   },
-  async getKnowledgeGraph(): Promise<KnowledgeNode[]> {
+  async getKnowledgeGraph(): Promise<Knowledge[]> {
     try {
-      return await apiClient.get<KnowledgeNode[]>('/api/v1/knowledge/graph');
+      return await apiClient.get<Knowledge[]>('/api/v1/knowledge/graph');
     } catch {
       return MOCK_GRAPH;
     }

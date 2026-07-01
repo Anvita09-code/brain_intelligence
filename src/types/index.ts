@@ -1,93 +1,58 @@
-export type AssetStatus = "ok" | "warning" | "critical" | "offline";
+export type Role = 'SUPER_ADMIN' | 'PLANT_MANAGER' | 'CONTROL_ROOM_OPERATOR' | 'MAINTENANCE_ENGINEER';
 
-export interface TelemetryReading {
-  timestamp: string;
-  speed: number;       // RPM
-  torque: number;      // Nm
-  temperature: number; // °C
-  vibration: number;   // mm/s
-  flowRate: number;    // L/min
-  pressure: number;    // bar
-  load: number;        // kW
-  riskScore: number;   // Anomaly score 0 - 100%
-  status: AssetStatus;
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  role: Role;
+  clearanceLevel: number;
 }
 
 export interface Asset {
   id: string;
   name: string;
   type: string;
-  status: AssetStatus;
-  telemetry: TelemetryReading;
-  history: TelemetryReading[];
+  status: 'OPERATIONAL' | 'DEGRADED' | 'CRITICAL' | 'OFFLINE';
+  parentId: string | null;
 }
 
-export interface AnomalyAlert {
+export interface Alert {
   id: string;
   assetId: string;
-  assetName: string;
-  type: string;
-  severity: "warning" | "critical";
+  severity: 'INFO' | 'WARNING' | 'CRITICAL' | 'FATAL';
+  message: string;
   timestamp: string;
-  description: string;
   acknowledged: boolean;
 }
 
-export interface PredictionModel {
+export interface Prediction {
   id: string;
-  name: string;
-  accuracy: number;
-  lastTrained: string;
-  status: "active" | "retraining" | "idle";
-  features: string[];
+  assetId: string;
+  remainingUsefulLifeDays: number;
+  failureProbability: number;
+  inferredFaultMechanism: string;
 }
 
-export interface KnowledgeNode {
-  id: string;
+export interface Knowledge {
+  nodeId: string;
   label: string;
-  category: "Component" | "FailureMode" | "Procedure" | "SOP";
-  connections: string[];
-  snippet: string;
+  properties: Record<string, unknown>;
+  edges: Array<{ relationship: string; targetId: string }>;
 }
 
-export interface ChatMessage {
-  id: string;
-  sender: "user" | "ai" | "system";
-  text: string;
+export interface Chat {
+  messageId: string;
+  sender: 'OPERATOR' | 'AI_ENGINE';
+  payload: string;
   timestamp: string;
-  metadata?: {
-    retrievedNodes?: string[];
-    confidence?: number;
-  };
 }
 
-export interface UserProfile {
-  id: string;
-  name: string;
-  email: string;
-  role: "Plant Superintendent" | "Lead Diagnostic Engineer" | "Operator";
-  shift: string;
-  permissions: string[];
-  avatar?: string;
-}
-
-export interface NavItem {
-  label: string;
-  href: string;
-  iconName: string;
-  badge?: string;
-}
-
-export interface ApiResponse<T = any> {
+export interface APIResponse<T> {
   success: boolean;
   data: T;
-  message?: string;
-  timestamp: string;
+  error?: {
+    code: string;
+    message: string;
+    details?: unknown;
+  };
 }
-
-// Section 8 Service Interface Mapping Type Aliases
-export type Alert = AnomalyAlert;
-export type Prediction = PredictionModel;
-export type Knowledge = KnowledgeNode;
-export type Chat = ChatMessage;
-export type User = UserProfile;

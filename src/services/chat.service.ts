@@ -1,9 +1,10 @@
 import { apiClient } from '@/api';
-import { Chat, ChatMessage } from '@/types';
+import { Chat } from '@/types';
 
 /**
  * Section 8 Service Interface Mapping: ChatService
  * Integrated with existing Section 7 decoupled network layer (apiClient).
+ * Conformed to Section 11 Strict Shared TypeScript Layouts.
  */
 export const ChatService = {
   /**
@@ -16,19 +17,15 @@ export const ChatService = {
       return [];
     }
   },
-  async sendMessage(prompt: string, history: ChatMessage[]): Promise<ChatMessage> {
+  async sendMessage(prompt: string, history: Chat[]): Promise<Chat> {
     try {
-      return await apiClient.post<ChatMessage>('/api/v1/chat', { prompt, history });
+      return await apiClient.post<Chat>('/api/v1/chat', { prompt, history });
     } catch {
       return {
-        id: `msg-${Date.now()}`,
-        sender: 'ai',
-        text: `Diagnostic Copilot Analysis for: "${prompt}". Root cause isolation indicates possible thermal boundary wear. Recommend verifying lubrication pressure lines.`,
+        messageId: `msg-${Date.now()}`,
+        sender: 'AI_ENGINE',
+        payload: `Diagnostic Copilot Analysis for: "${prompt}". Root cause isolation indicates possible thermal boundary wear. Recommend verifying lubrication pressure lines.`,
         timestamp: new Date().toLocaleTimeString(),
-        metadata: {
-          confidence: 0.94,
-          retrievedNodes: ['SOP-402', 'Bearing-Spec-V2'],
-        },
       };
     }
   },

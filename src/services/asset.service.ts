@@ -4,6 +4,7 @@ import { Asset } from '@/types';
 /**
  * Section 8 Service Interface Mapping: AssetService
  * Integrated with existing Section 7 decoupled network layer (apiClient).
+ * Conformed to Section 11 Strict Shared TypeScript Layouts.
  */
 export const AssetService = {
   /**

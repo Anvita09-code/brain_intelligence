@@ -1,28 +1,27 @@
 import { apiClient } from '@/api';
-import { Prediction, PredictionModel } from '@/types';
+import { Prediction } from '@/types';
 
-const MOCK_MODELS: PredictionModel[] = [
+const MOCK_PREDICTIONS: Prediction[] = [
   {
-    id: 'mod-shap-01',
-    name: 'XGBoost Telemetry Classifier v4',
-    accuracy: 98.4,
-    lastTrained: '2026-06-15 08:30:00',
-    status: 'active',
-    features: ['vibration', 'temperature', 'pressure', 'speed'],
+    id: 'pred-shap-01',
+    assetId: 'turbine-01',
+    remainingUsefulLifeDays: 45,
+    failureProbability: 0.12,
+    inferredFaultMechanism: 'Bearing Casing Degradation',
   },
   {
-    id: 'mod-rag-02',
-    name: 'Graph Attention Fault Predictor',
-    accuracy: 96.1,
-    lastTrained: '2026-06-28 14:00:00',
-    status: 'active',
-    features: ['acoustic_emission', 'oil_viscosity'],
+    id: 'pred-rag-02',
+    assetId: 'compressor-02',
+    remainingUsefulLifeDays: 82,
+    failureProbability: 0.04,
+    inferredFaultMechanism: 'Lubrication Film Failure',
   },
 ];
 
 /**
  * Section 8 Service Interface Mapping: PredictionService
  * Integrated with existing Section 7 decoupled network layer (apiClient).
+ * Conformed to Section 11 Strict Shared TypeScript Layouts.
  */
 export const PredictionService = {
   /**
@@ -32,14 +31,14 @@ export const PredictionService = {
     try {
       return await apiClient.get<Prediction[]>('/api/v1/predictions');
     } catch {
-      return MOCK_MODELS;
+      return MOCK_PREDICTIONS;
     }
   },
-  async getModels(): Promise<PredictionModel[]> {
+  async getModels(): Promise<Prediction[]> {
     try {
-      return await apiClient.get<PredictionModel[]>('/api/v1/predictions/models');
+      return await apiClient.get<Prediction[]>('/api/v1/predictions/models');
     } catch {
-      return MOCK_MODELS;
+      return MOCK_PREDICTIONS;
     }
   },
 };

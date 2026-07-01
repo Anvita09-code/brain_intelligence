@@ -1,15 +1,13 @@
 import { apiClient } from '@/api';
-import { Alert, AnomalyAlert } from '@/types';
+import { Alert } from '@/types';
 
-const MOCK_ALERTS: AnomalyAlert[] = [
+const MOCK_ALERTS: Alert[] = [
   {
     id: 'alt-101',
     assetId: 'turbine-01',
-    assetName: 'Gas Turbine G-101',
-    type: 'Bearing Degradation',
-    severity: 'warning',
+    severity: 'WARNING',
+    message: 'High frequency casing harmonic vibration detected.',
     timestamp: new Date().toLocaleTimeString(),
-    description: 'High frequency casing harmonic vibration detected.',
     acknowledged: false,
   },
 ];
@@ -17,6 +15,7 @@ const MOCK_ALERTS: AnomalyAlert[] = [
 /**
  * Section 8 Service Interface Mapping: AlertService
  * Integrated with existing Section 7 decoupled network layer (apiClient).
+ * Conformed to Section 11 Strict Shared TypeScript Layouts.
  */
 export const AlertService = {
   /**

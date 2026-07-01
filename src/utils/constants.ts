@@ -17,3 +17,5 @@ export const STORAGE_KEYS = {
   SIDEBAR_STATE: 'iob_sidebar_open',
   THEME_MODE: 'iob_theme_mode',
 } as const;
+
+export const AUTH_TOKEN_KEY = STORAGE_KEYS.AUTH_TOKEN;
