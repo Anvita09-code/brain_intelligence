@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import { GlobalProviders } from "@/providers/GlobalProviders";
 
 const inter = Inter({
-  variable: "--font-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
@@ -31,7 +31,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
       data-theme="dark"
     >
-      <body className="min-h-full bg-industrial-bg-dark text-industrial-bg-light font-sans selection:bg-industrial-status-warning selection:text-industrial-bg-highContrast flex flex-col">
+      <body id="__next_root" className="min-h-full bg-industrial-bg text-industrial-bg-light font-sans selection:bg-industrial-status-warning selection:text-industrial-bg-highContrast flex flex-col">
         <GlobalProviders>
           {children}
         </GlobalProviders>
