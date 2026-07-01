@@ -1,21 +1,12 @@
-import React from "react";
+'use client';
 
-export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  fluid?: boolean;
+import React from 'react';
+import { Container as MuiContainer, ContainerProps as MuiContainerProps } from '@mui/material';
+
+export type ContainerProps = MuiContainerProps;
+
+export function Container({ children, ...props }: ContainerProps) {
+  return <MuiContainer {...props}>{children}</MuiContainer>;
 }
 
-export const Container: React.FC<ContainerProps> = ({
-  children,
-  fluid = false,
-  className = "",
-  ...props
-}) => {
-  return (
-    <div
-      className={`w-full mx-auto px-md md:px-lg ${fluid ? "max-w-none" : "max-w-7xl"} ${className}`}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-};
+export default Container;
