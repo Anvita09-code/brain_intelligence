@@ -136,5 +136,5 @@ export function DesignSystemProvider({ children }: DesignSystemProviderProps) {
     themeStyles.injectCSS();
   }, []);
 
-  return <>{children}</>;
+  return React.createElement(React.Fragment, null, children);
 }

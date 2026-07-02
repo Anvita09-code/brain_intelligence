@@ -14,7 +14,7 @@ import {
   AlertTriangle,
   Inbox,
   FileX,
-} from 'lucide-react';
+} from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

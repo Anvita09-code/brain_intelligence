@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu } from 'lucide-react';
+import { Cpu } from '@/components/icons';
 
 export function Logo() {
   return (

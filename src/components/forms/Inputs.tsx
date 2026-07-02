@@ -9,7 +9,7 @@
 import React, { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { Search, Eye, EyeOff, X } from 'lucide-react';
+import { Search, Eye, EyeOff, X } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Base Input Styles                                                  */

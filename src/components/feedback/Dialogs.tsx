@@ -13,7 +13,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { X, AlertTriangle, CheckCircle, Info, XCircle } from 'lucide-react';
+import { X, AlertTriangle, CheckCircle, Info, XCircle } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

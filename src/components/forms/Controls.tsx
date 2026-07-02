@@ -10,7 +10,7 @@
 import React, { forwardRef, type ButtonHTMLAttributes, type InputHTMLAttributes, type SelectHTMLAttributes } from 'react';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Button                                                             */
@@ -172,8 +172,8 @@ export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
                 : tokens.colors.border.default,
               borderRadius: tokens.borderRadius.full,
               transition: tokens.transitions.fast,
-              ringColor: tokens.colors.border.focus,
-            }}
+              '--tw-ring-color': tokens.colors.border.focus,
+            } as React.CSSProperties}
           />
           <div
             className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full transition-transform"

@@ -10,7 +10,7 @@
 import React, { useState, useCallback } from 'react';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  AccordionItem                                                      */

@@ -14,7 +14,7 @@ import {
   AlertTriangle,
   XCircle,
   Info,
-} from 'lucide-react';
+} from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

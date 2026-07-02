@@ -11,7 +11,7 @@
 
 import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 import { tokens } from '@/design-system/tokens';
-import { AlertTriangle, RefreshCw, Bug } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Bug } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

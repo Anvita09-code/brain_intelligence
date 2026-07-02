@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useTelemetry } from "@/contexts/TelemetryContext";
-import { Search, Database, Share2, HelpCircle, ArrowRight } from "lucide-react";
+import { Search, Database, Share2, HelpCircle, ArrowRight } from "@/components/icons";
 
 interface GraphNode {
   id: string;

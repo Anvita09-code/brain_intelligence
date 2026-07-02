@@ -20,7 +20,7 @@ import {
   TrendingDown,
   Activity,
   AlertTriangle,
-} from 'lucide-react';
+} from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

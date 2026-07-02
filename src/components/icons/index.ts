@@ -5,50 +5,80 @@
  * Uses lucide-react (already in package.json).
  *
  * Usage:
- *   import { ActivityIcon, GaugeIcon, PumpIcon } from '@/components/icons';
+ *   import { Activity, Gauge, PumpIcon } from '@/components/icons';
  */
+
+import React from 'react';
 
 /* ------------------------------------------------------------------ */
 /*  Re-export commonly used Lucide icons                               */
 /* ------------------------------------------------------------------ */
 
 export {
-  // Navigation
-  Home,
-  LayoutDashboard,
+  // Requested Centralized Icon Engine exports
   Settings,
+  Bell,
+  Search,
   ChevronDown,
   ChevronRight,
   ChevronLeft,
-  ChevronUp,
+  ChevronsLeft,
+  ChevronsRight,
   Menu,
-  MoreVertical,
-  MoreHorizontal,
-
-  // Status & Indicators
+  X,
+  User,
+  LogOut,
+  Sliders,
+  Database,
   Activity,
   AlertTriangle,
+  Cpu,
+  TrendingUp,
+  Share2,
+  Clock,
+  ShieldAlert,
+  Loader2,
+  FileText,
+  Check,
   AlertCircle,
+  HelpCircle,
+  Info,
+  Layers,
+  Filter,
+  RefreshCw,
+  Eye,
+  EyeOff,
+  Calendar,
+  Lock,
+  UploadCloud,
+  ChevronUp,
+  Grid as GridIcon,
+  MoreVertical,
+  Trash2,
+
+  // Additional Navigation
+  Home,
+  LayoutDashboard,
+  MoreHorizontal,
+  ArrowRight,
+  ChevronsUpDown,
+
+  // Additional Status & Indicators
   CheckCircle,
   XCircle,
-  Info,
-  Bell,
   BellRing,
+  Bug,
 
-  // Actions
+  // Additional Actions
   Plus,
   Minus,
   Edit,
-  Trash2,
   Copy,
   Download,
   Upload,
-  RefreshCw,
-  Search,
-  Filter,
-  X,
+  SearchX,
 
-  // Industrial / Operational
+  // Additional Industrial / Operational
   Gauge,
   Thermometer,
   Zap,
@@ -59,52 +89,42 @@ export {
   Factory,
   Warehouse,
   CircuitBoard,
-  Cpu,
   Server,
   HardDrive,
-  Database,
   Network,
+  WifiOff,
 
-  // Charts
-  TrendingUp,
+  // Additional Charts
   TrendingDown,
   BarChart3,
   LineChart,
   PieChart,
   AreaChart,
 
-  // Data
+  // Additional Data
   Table,
-  FileText,
   FileSpreadsheet,
   ClipboardList,
   Archive,
+  FileX,
+  Inbox,
 
-  // Auth
-  Lock,
+  // Additional Auth / Users / Communication
   Unlock,
-  User,
   Users,
   LogIn,
-  LogOut,
   Shield,
   ShieldCheck,
+  MessageSquare,
 
   // Misc
   ExternalLink,
-  Eye,
-  EyeOff,
-  Loader2,
-  Calendar,
-  Clock,
   Timer,
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
 /*  Custom SVG Icons – Industrial                                      */
 /* ------------------------------------------------------------------ */
-
-import React from 'react';
 
 interface IconProps {
   className?: string;
@@ -114,82 +134,82 @@ interface IconProps {
 
 /** Pump / motor icon (custom) */
 export function PumpIcon({ className, style, size = 24 }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      style={style}
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="6" />
-      <path d="M12 6V2" />
-      <path d="M12 22v-4" />
-      <path d="M6 12H2" />
-      <path d="M22 12h-4" />
-      <circle cx="12" cy="12" r="2" />
-    </svg>
+  return React.createElement(
+    'svg',
+    {
+      xmlns: 'http://www.w3.org/2000/svg',
+      width: size,
+      height: size,
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      strokeWidth: 2,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      className,
+      style,
+      'aria-hidden': 'true',
+    },
+    React.createElement('circle', { cx: 12, cy: 12, r: 6 }),
+    React.createElement('path', { d: 'M12 6V2' }),
+    React.createElement('path', { d: 'M12 22v-4' }),
+    React.createElement('path', { d: 'M6 12H2' }),
+    React.createElement('path', { d: 'M22 12h-4' }),
+    React.createElement('circle', { cx: 12, cy: 12, r: 2 })
   );
 }
 
 /** Valve icon (custom) */
 export function ValveIcon({ className, style, size = 24 }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      style={style}
-      aria-hidden="true"
-    >
-      <path d="M2 12h6" />
-      <path d="M16 12h6" />
-      <polygon points="8,6 16,6 16,18 8,18" />
-      <line x1="12" y1="2" x2="12" y2="6" />
-      <line x1="9" y1="2" x2="15" y2="2" />
-    </svg>
+  return React.createElement(
+    'svg',
+    {
+      xmlns: 'http://www.w3.org/2000/svg',
+      width: size,
+      height: size,
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      strokeWidth: 2,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      className,
+      style,
+      'aria-hidden': 'true',
+    },
+    React.createElement('path', { d: 'M2 12h6' }),
+    React.createElement('path', { d: 'M16 12h6' }),
+    React.createElement('polygon', { points: '8,6 16,6 16,18 8,18' }),
+    React.createElement('line', { x1: 12, y1: 2, x2: 12, y2: 6 }),
+    React.createElement('line', { x1: 9, y1: 2, x2: 15, y2: 2 })
   );
 }
 
 /** PLC / Controller icon (custom) */
 export function PLCIcon({ className, style, size = 24 }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      style={style}
-      aria-hidden="true"
-    >
-      <rect x="4" y="2" width="16" height="20" rx="2" />
-      <line x1="8" y1="6" x2="8" y2="6.01" />
-      <line x1="12" y1="6" x2="12" y2="6.01" />
-      <line x1="16" y1="6" x2="16" y2="6.01" />
-      <line x1="8" y1="10" x2="8" y2="10.01" />
-      <line x1="12" y1="10" x2="12" y2="10.01" />
-      <line x1="16" y1="10" x2="16" y2="10.01" />
-      <rect x="7" y="14" width="10" height="4" rx="1" />
-    </svg>
+  return React.createElement(
+    'svg',
+    {
+      xmlns: 'http://www.w3.org/2000/svg',
+      width: size,
+      height: size,
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      stroke: 'currentColor',
+      strokeWidth: 2,
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      className,
+      style,
+      'aria-hidden': 'true',
+    },
+    React.createElement('rect', { x: 4, y: 2, width: 16, height: 20, rx: 2 }),
+    React.createElement('line', { x1: 8, y1: 6, x2: 8, y2: 6.01 }),
+    React.createElement('line', { x1: 12, y1: 6, x2: 12, y2: 6.01 }),
+    React.createElement('line', { x1: 16, y1: 6, x2: 16, y2: 6.01 }),
+    React.createElement('line', { x1: 8, y1: 10, x2: 8, y2: 10.01 }),
+    React.createElement('line', { x1: 12, y1: 10, x2: 12, y2: 10.01 }),
+    React.createElement('line', { x1: 16, y1: 10, x2: 16, y2: 10.01 }),
+    React.createElement('rect', { x: 7, y: 14, width: 10, height: 4, rx: 1 })
   );
 }

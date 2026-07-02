@@ -10,7 +10,7 @@
 import React from 'react';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { ChevronRight, Home } from 'lucide-react';
+import { ChevronRight, Home } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Breadcrumb                                                         */

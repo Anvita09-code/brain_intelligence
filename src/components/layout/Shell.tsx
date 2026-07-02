@@ -12,7 +12,7 @@
 import React, { useState, useCallback } from 'react';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { Menu, X } from 'lucide-react';
+import { Menu, X } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useTelemetry } from "@/contexts/TelemetryContext";
-import { ShieldAlert, Info, HelpCircle } from "lucide-react";
+import { ShieldAlert, Info, HelpCircle } from "@/components/icons";
 
 interface SHAPFeature {
   name: string;

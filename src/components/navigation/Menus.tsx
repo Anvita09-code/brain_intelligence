@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { Check } from 'lucide-react';
+import { Check } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

@@ -18,7 +18,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-} from 'lucide-react';
+} from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */

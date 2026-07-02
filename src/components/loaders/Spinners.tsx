@@ -7,7 +7,7 @@
 import React from 'react';
 import { cn } from '@/components/lib/utils';
 import { tokens } from '@/design-system/tokens';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Spinner                                                            */

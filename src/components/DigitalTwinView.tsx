@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useTelemetry } from "@/contexts/TelemetryContext";
-import { Activity, Gauge, ShieldAlert } from "lucide-react";
+import { Activity, Gauge, ShieldAlert } from "@/components/icons";
 
 export const DigitalTwinView: React.FC = () => {
   const { assets, selectedAssetId, activeAnomaly } = useTelemetry();

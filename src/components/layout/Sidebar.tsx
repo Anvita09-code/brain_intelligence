@@ -14,7 +14,7 @@ import {
   MessageSquare,
   Settings,
   User,
-} from 'lucide-react';
+} from '@/components/icons';
 
 const routes = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
