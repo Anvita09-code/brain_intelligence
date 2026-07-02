@@ -1,208 +1,163 @@
-/**
- * IOB Structural – Layout primitives (Divider, Spacer, Grid, Section) (Phase 2)
- */
-
 'use client';
 
 import React from 'react';
-import { cn } from '@/components/lib/utils';
-import { tokens } from '@/design-system/tokens';
+import { tokens } from '../../design-system/tokens';
 
-/* ------------------------------------------------------------------ */
-/*  Divider                                                            */
-/* ------------------------------------------------------------------ */
-
-export interface DividerProps {
-  orientation?: 'horizontal' | 'vertical';
-  className?: string;
-  /** Add label in the middle of the divider */
-  label?: string;
-}
-
-export function Divider({
-  orientation = 'horizontal',
-  className,
-  label,
-}: DividerProps) {
-  if (orientation === 'vertical') {
-    return (
-      <div
-        className={cn('self-stretch', className)}
-        style={{
-          width: '1px',
-          backgroundColor: tokens.colors.border.subtle,
-        }}
-        role="separator"
-        aria-orientation="vertical"
-      />
-    );
-  }
-
-  if (label) {
-    return (
-      <div
-        className={cn('flex items-center gap-3', className)}
-        role="separator"
-      >
-        <div
-          className="flex-1"
-          style={{ height: '1px', backgroundColor: tokens.colors.border.subtle }}
-        />
-        <span
-          style={{
-            color: tokens.colors.text.muted,
-            fontSize: tokens.typography.fontSize.xs,
-            fontWeight: tokens.typography.fontWeight.medium,
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-          }}
-        >
-          {label}
-        </span>
-        <div
-          className="flex-1"
-          style={{ height: '1px', backgroundColor: tokens.colors.border.subtle }}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <hr
-      className={cn('border-0', className)}
-      style={{
-        height: '1px',
-        backgroundColor: tokens.colors.border.subtle,
-      }}
-      role="separator"
-    />
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Spacer                                                             */
-/* ------------------------------------------------------------------ */
-
-export interface SpacerProps {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-  className?: string;
-}
-
-const spacerSizeMap = {
-  xs: tokens.spacing.xs,
-  sm: tokens.spacing.sm,
-  md: tokens.spacing.md,
-  lg: tokens.spacing.lg,
-  xl: tokens.spacing.xl,
-  xxl: tokens.spacing.xxl,
-};
-
-export function Spacer({ size = 'md', className }: SpacerProps) {
-  return (
-    <div
-      className={cn('shrink-0', className)}
-      style={{ height: spacerSizeMap[size], width: '100%' }}
-      aria-hidden="true"
-    />
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Grid                                                               */
-/* ------------------------------------------------------------------ */
-
-export interface GridProps {
-  columns?: number | { sm?: number; md?: number; lg?: number; xl?: number };
-  gap?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  className?: string;
+interface LayoutProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
 }
 
-const gapSizeMap = {
-  xs: tokens.spacing.xs,
-  sm: tokens.spacing.sm,
-  md: tokens.spacing.md,
-  lg: tokens.spacing.lg,
-  xl: tokens.spacing.xl,
-};
-
-export function Grid({ columns = 1, gap = 'md', className, children }: GridProps) {
-  const colCount = typeof columns === 'number' ? columns : columns.lg ?? columns.md ?? columns.sm ?? 1;
-
+export const Container: React.FC<LayoutProps & { fluid?: boolean }> = ({
+  children,
+  fluid = false,
+  style,
+  ...props
+}) => {
   return (
     <div
-      className={cn('grid', className)}
       style={{
-        gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
-        gap: gapSizeMap[gap],
+        width: '100%',
+        maxWidth: fluid ? '100%' : '1440px',
+        margin: '0 auto',
+        paddingLeft: tokens.spacing.lg,
+        paddingRight: tokens.spacing.lg,
+        ...style,
       }}
+      {...props}
     >
       {children}
     </div>
   );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Section                                                            */
-/* ------------------------------------------------------------------ */
-
-export interface SectionProps {
-  title?: string;
-  description?: string;
-  actions?: React.ReactNode;
-  children: React.ReactNode;
-  className?: string;
-  padding?: 'none' | 'sm' | 'md' | 'lg';
-}
-
-const sectionPaddingMap = {
-  none: '0',
-  sm: tokens.spacing.sm,
-  md: tokens.spacing.lg,
-  lg: tokens.spacing.xl,
 };
 
-export function Section({
-  title,
-  description,
-  actions,
-  children,
-  className,
-  padding = 'md',
-}: SectionProps) {
+export const Section: React.FC<LayoutProps> = ({ children, style, ...props }) => {
   return (
-    <section className={cn(className)} style={{ padding: sectionPaddingMap[padding] }}>
-      {(title || actions) && (
-        <header className="flex items-start justify-between mb-4">
-          <div>
-            {title && (
-              <h2
-                style={{
-                  color: tokens.colors.text.primary,
-                  fontSize: tokens.typography.fontSize.xl,
-                  fontWeight: tokens.typography.fontWeight.bold,
-                  lineHeight: tokens.typography.lineHeight.tight,
-                }}
-              >
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p
-                className="mt-1"
-                style={{
-                  color: tokens.colors.text.secondary,
-                  fontSize: tokens.typography.fontSize.sm,
-                }}
-              >
-                {description}
-              </p>
-            )}
-          </div>
-          {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
-        </header>
-      )}
+    <section
+      style={{
+        paddingTop: tokens.spacing.xl,
+        paddingBottom: tokens.spacing.xl,
+        borderBottom: `1px solid ${tokens.colors.border.subtle}`,
+        ...style,
+      }}
+      {...props}
+    >
       {children}
     </section>
   );
+};
+
+interface FlexProps extends LayoutProps {
+  direction?: 'row' | 'column';
+  align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
+  justify?:
+    | 'flex-start'
+    | 'center'
+    | 'flex-end'
+    | 'space-between'
+    | 'space-around';
+  gap?: keyof typeof tokens.spacing;
+  wrap?: 'wrap' | 'nowrap';
 }
+
+export const Flex: React.FC<FlexProps> = ({
+  children,
+  direction = 'row',
+  align = 'stretch',
+  justify = 'flex-start',
+  gap,
+  wrap = 'nowrap',
+  style,
+  ...props
+}) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: direction,
+        alignItems: align,
+        justifyContent: justify,
+        gap: gap ? tokens.spacing[gap] : undefined,
+        flexWrap: wrap,
+        ...style,
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const Stack: React.FC<Omit<FlexProps, 'direction'>> = (props) => {
+  return <Flex direction="column" gap={props.gap || 'sm'} {...props} />;
+};
+
+interface GridProps extends LayoutProps {
+  columns?: number | string;
+  gap?: keyof typeof tokens.spacing;
+}
+
+export const Grid: React.FC<GridProps> = ({
+  children,
+  columns = 4,
+  gap = 'lg',
+  style,
+  ...props
+}) => {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns:
+          typeof columns === 'number'
+            ? `repeat(${columns}, minmax(0, 1fr))`
+            : columns,
+        gap: tokens.spacing[gap],
+        ...style,
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const Divider: React.FC<{
+  orientation?: 'horizontal' | 'vertical';
+  margin?: keyof typeof tokens.spacing;
+}> = ({ orientation = 'horizontal', margin = 'md' }) => {
+  const isHorizontal = orientation === 'horizontal';
+
+  return (
+    <div
+      role="separator"
+      aria-orientation={orientation}
+      style={{
+        width: isHorizontal ? '100%' : '1px',
+        height: isHorizontal ? '1px' : '100%',
+        backgroundColor: tokens.colors.border.subtle,
+        marginTop: isHorizontal ? tokens.spacing[margin] : 0,
+        marginBottom: isHorizontal ? tokens.spacing[margin] : 0,
+        marginLeft: !isHorizontal ? tokens.spacing[margin] : 0,
+        marginRight: !isHorizontal ? tokens.spacing[margin] : 0,
+        display: isHorizontal ? 'block' : 'inline-block',
+        alignSelf: 'stretch',
+      }}
+    />
+  );
+};
+
+export const Spacer: React.FC<{
+  size: keyof typeof tokens.spacing;
+  horizontal?: boolean;
+}> = ({ size, horizontal = false }) => {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        width: horizontal ? tokens.spacing[size] : '1px',
+        height: !horizontal ? tokens.spacing[size] : '1px',
+        flexShrink: 0,
+      }}
+    />
+  );
+};

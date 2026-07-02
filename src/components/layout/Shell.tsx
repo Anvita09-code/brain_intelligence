@@ -1,132 +1,106 @@
-/**
- * IOB Shell – Application shell / layout wrapper (Phase 2)
- *
- * Provides the main layout structure: sidebar + topbar + main content area.
- * Designed to wrap the dashboard route group.
- *
- * Integration: Use in src/app/(dashboard)/layout.tsx
- */
-
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { cn } from '@/components/lib/utils';
-import { tokens } from '@/design-system/tokens';
-import { Menu, X } from '@/components/icons';
+import React from 'react';
+import { tokens } from '../../design-system/tokens';
+import { Flex, Stack } from './Structural';
 
-/* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
-
-export interface AppShellProps {
-  /** Sidebar navigation content */
-  sidebar: React.ReactNode;
-  /** Top bar content */
-  topBar?: React.ReactNode;
-  /** Main content area */
-  children: React.ReactNode;
-  /** Sidebar width when expanded; default 240px */
-  sidebarWidth?: number;
-  /** Sidebar width when collapsed; default 56px */
-  sidebarCollapsedWidth?: number;
-  /** Start with sidebar collapsed */
-  defaultCollapsed?: boolean;
-  className?: string;
+interface PageHeaderProps {
+  title: string;
+  subtitle?: string;
+  actions?: React.ReactNode;
 }
 
-/* ------------------------------------------------------------------ */
-/*  AppShell                                                           */
-/* ------------------------------------------------------------------ */
-
-export function AppShell({
-  sidebar,
-  topBar,
-  children,
-  sidebarWidth = 240,
-  sidebarCollapsedWidth = 56,
-  defaultCollapsed = false,
-  className,
-}: AppShellProps) {
-  const [collapsed, setCollapsed] = useState(defaultCollapsed);
-  const currentWidth = collapsed ? sidebarCollapsedWidth : sidebarWidth;
-
-  const toggleSidebar = useCallback(() => {
-    setCollapsed((c) => !c);
-  }, []);
-
+export const PageHeader: React.FC<PageHeaderProps> = ({
+  title,
+  subtitle,
+  actions,
+}) => {
   return (
     <div
-      className={cn('flex h-screen overflow-hidden', className)}
-      style={{ backgroundColor: tokens.colors.bg.deep }}
+      style={{
+        padding: `${tokens.spacing.md} ${tokens.spacing.lg}`,
+        borderBottom: `1px solid ${tokens.colors.border.default}`,
+        backgroundColor: tokens.colors.bg.surface,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
     >
-      {/* Sidebar */}
-      <aside
-        className="shrink-0 flex flex-col overflow-y-auto overflow-x-hidden transition-all"
-        style={{
-          width: `${currentWidth}px`,
-          backgroundColor: tokens.colors.bg.surface,
-          borderRight: `1px solid ${tokens.colors.border.subtle}`,
-          transition: 'width 0.2s ease-in-out',
-        }}
-        role="complementary"
-        aria-label="Sidebar navigation"
-      >
-        {/* Sidebar toggle */}
-        <div
-          className="flex items-center justify-end p-3"
-          style={{ borderBottom: `1px solid ${tokens.colors.border.subtle}` }}
+      <Stack gap="xxs">
+        <h1
+          style={{
+            fontSize: tokens.typography.fontSize.xl,
+            fontWeight: tokens.typography.fontWeight.bold,
+            color: tokens.colors.text.primary,
+            margin: 0,
+          }}
         >
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="p-1.5 rounded transition-colors"
-            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            style={{ transition: tokens.transitions.fast }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                tokens.colors.bg.hover;
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                'transparent';
+          {title}
+        </h1>
+        {subtitle && (
+          <span
+            style={{
+              fontSize: tokens.typography.fontSize.sm,
+              color: tokens.colors.text.muted,
             }}
           >
-            {collapsed ? (
-              <Menu
-                className="w-4 h-4"
-                style={{ color: tokens.colors.text.muted }}
-              />
-            ) : (
-              <X
-                className="w-4 h-4"
-                style={{ color: tokens.colors.text.muted }}
-              />
-            )}
-          </button>
-        </div>
+            {subtitle}
+          </span>
+        )}
+      </Stack>
+      {actions && (
+        <Flex align="center" gap="sm">
+          {actions}
+        </Flex>
+      )}
+    </div>
+  );
+};
 
-        {/* Sidebar content – pass collapsed state via render prop or context */}
-        <div className="flex-1 overflow-y-auto">
-          {typeof sidebar === 'function'
-            ? (sidebar as (collapsed: boolean) => React.ReactNode)(collapsed)
-            : sidebar}
-        </div>
-      </aside>
+export const ContentWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  return (
+    <main
+      style={{
+        flex: 1,
+        padding: tokens.spacing.lg,
+        overflowY: 'auto',
+        backgroundColor: tokens.colors.bg.deep,
+      }}
+    >
+      {children}
+    </main>
+  );
+};
 
-      {/* Main Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Bar */}
-        {topBar && <div className="shrink-0">{topBar}</div>}
-
-        {/* Content */}
-        <main
-          className="flex-1 overflow-y-auto overflow-x-hidden"
-          role="main"
-          style={{ backgroundColor: tokens.colors.bg.deep }}
-        >
-          {children}
-        </main>
+export const DashboardWrapper: React.FC<{
+  sidebar: React.ReactNode;
+  navbar: React.ReactNode;
+  children: React.ReactNode;
+}> = ({ sidebar, navbar, children }) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        width: '100vw',
+        height: '100vh',
+        overflow: 'hidden',
+        backgroundColor: tokens.colors.bg.deep,
+      }}
+    >
+      {sidebar}
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        {navbar}
+        {children}
       </div>
     </div>
   );
-}
+};
