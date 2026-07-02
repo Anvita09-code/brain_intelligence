@@ -1,3 +1,9 @@
+/**
+ * IOB Display Components – Barrel Export (Phase 2)
+ *
+ * Typography, Card, Accordion, EmptyStates
+ */
+
 export {
   Accordion,
   AccordionItem,
@@ -25,10 +31,14 @@ export {
 
 export {
   Heading,
+  Body,
   Text,
+  Caption,
   Label,
   Code,
+  MonospaceText,
   KPIValue,
+  StatusText,
   type HeadingProps,
   type HeadingLevel,
   type TextProps,
