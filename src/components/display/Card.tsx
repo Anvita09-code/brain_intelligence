@@ -18,7 +18,7 @@ import { tokens } from '@/design-system/tokens';
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 
-export type CardVariant = 'default' | 'elevated' | 'outlined' | 'status';
+export type CardVariant = 'default' | 'elevated' | 'outlined' | 'status' | 'glass';
 
 export interface CardProps {
   variant?: CardVariant;
@@ -26,13 +26,25 @@ export interface CardProps {
   statusColor?: 'success' | 'warning' | 'danger' | 'info' | string;
   padding?: 'none' | 'sm' | 'md' | 'lg';
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
   as?: React.ElementType;
+  /**
+   * Convenience inline-header props (Section 6 spec).
+   * When provided, an internal `<CardHeader>` is rendered automatically so
+   * callers don't have to compose `<CardHeader>`/`<CardBody>` manually.
+   * The compound `CardHeader`/`CardBody`/`CardFooter` API below still works
+   * unchanged for callers that prefer full control over composition.
+   */
+  title?: string;
+  subtitle?: string;
+  actions?: React.ReactNode;
+  footer?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 export interface CardHeaderProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   actions?: React.ReactNode;
   className?: string;
@@ -71,11 +83,18 @@ export function Card({
   children,
   onClick,
   as: Component = 'article',
+  title,
+  subtitle,
+  actions,
+  footer,
+  style,
 }: CardProps) {
   const bg =
     variant === 'elevated'
       ? tokens.colors.bg.elevated
-      : tokens.colors.bg.surface;
+      : variant === 'glass'
+        ? 'rgba(18, 24, 29, 0.75)'
+        : tokens.colors.bg.surface;
   const border =
     variant === 'outlined'
       ? tokens.colors.border.default
@@ -89,6 +108,12 @@ export function Card({
       : statusColor
     : undefined;
 
+  // Compound-header usage (<Card><CardHeader .../><CardBody .../></Card>)
+  // stays untouched; these convenience props just wrap the same
+  // CardHeader/CardFooter primitives so both authoring styles render
+  // identically.
+  const hasInlineHeader = Boolean(title || subtitle || actions);
+
   return (
     <Component
       className={cn(
@@ -97,11 +122,13 @@ export function Card({
         className,
       )}
       style={{
-        backgroundColor: bg,
+        backgroundColor: variant === 'outlined' ? 'transparent' : bg,
         border: `1px solid ${border}`,
+        ...(variant === 'glass' ? { backdropFilter: 'blur(8px)' } : {}),
         borderRadius: tokens.borderRadius.md,
         boxShadow: shadow,
         transition: tokens.transitions.fast,
+        ...style,
       }}
       onClick={onClick}
       onMouseEnter={
@@ -115,7 +142,8 @@ export function Card({
       onMouseLeave={
         onClick
           ? (e: React.MouseEvent<HTMLElement>) => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = bg;
+              (e.currentTarget as HTMLElement).style.backgroundColor =
+                variant === 'outlined' ? 'transparent' : bg;
             }
           : undefined
       }
@@ -129,7 +157,20 @@ export function Card({
           style={{ backgroundColor: resolvedStatusColor }}
         />
       )}
-      <div style={{ padding: paddingMap[padding] }}>{children}</div>
+      <div
+        style={{
+          padding: paddingMap[padding],
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+        }}
+      >
+        {hasInlineHeader && (
+          <CardHeader title={title ?? ''} subtitle={subtitle} actions={actions} />
+        )}
+        <div style={{ flex: 1 }}>{children}</div>
+        {footer && <CardFooter>{footer}</CardFooter>}
+      </div>
     </Component>
   );
 }

@@ -140,14 +140,30 @@ export function AccordionItem({
 /*  Accordion (Group)                                                  */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Plain-data shape accepted by the `items` prop (Section 6 spec style):
+ *   <Accordion items={[{ id, title, content }]} />
+ * This coexists with the compound `<Accordion><AccordionItem/></Accordion>`
+ * API above — pass either `items` or `children`, not both.
+ */
+export interface AccordionItemData {
+  id: string;
+  title: string;
+  subtitle?: string;
+  icon?: React.ReactNode;
+  content: React.ReactNode;
+}
+
 export interface AccordionProps {
   /** Allow multiple items open at once; default false (single-open) */
   multiple?: boolean;
-  children: React.ReactNode;
+  /** Flat data-driven items (spec-compatible alternative to `children`) */
+  items?: AccordionItemData[];
+  children?: React.ReactNode;
   className?: string;
 }
 
-export function Accordion({ multiple = false, children, className }: AccordionProps) {
+export function Accordion({ multiple = false, items, children, className }: AccordionProps) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
 
   const handleToggle = useCallback(
@@ -162,8 +178,30 @@ export function Accordion({ multiple = false, children, className }: AccordionPr
     [multiple],
   );
 
+  // Data-driven usage: <Accordion items={[...]} />
+  if (items) {
+    return (
+      <div className={cn('flex flex-col gap-2', className)}>
+        {items.map((item) => (
+          <AccordionItem
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            subtitle={item.subtitle}
+            icon={item.icon}
+            isOpen={openIds.has(item.id)}
+            onToggle={handleToggle}
+          >
+            {item.content}
+          </AccordionItem>
+        ))}
+      </div>
+    );
+  }
+
+  // Compound usage: <Accordion><AccordionItem id="..." .../></Accordion>
   // Clone children to inject controlled state
-  const items = React.Children.map(children, (child) => {
+  const clonedChildren = React.Children.map(children, (child) => {
     if (!React.isValidElement<AccordionItemProps>(child)) return child;
     return React.cloneElement(child, {
       isOpen: openIds.has(child.props.id),
@@ -171,5 +209,5 @@ export function Accordion({ multiple = false, children, className }: AccordionPr
     });
   });
 
-  return <div className={cn('flex flex-col gap-2', className)}>{items}</div>;
+  return <div className={cn('flex flex-col gap-2', className)}>{clonedChildren}</div>;
 }

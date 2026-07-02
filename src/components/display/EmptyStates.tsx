@@ -12,6 +12,8 @@ import {
   SearchX,
   WifiOff,
   AlertTriangle,
+  AlertCircle,
+  ShieldAlert,
   Inbox,
   FileX,
 } from '@/components/icons';
@@ -139,5 +141,93 @@ export function EmptyState({
 
       {action && <div className="mt-6">{action}</div>}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Named Empty-State Shortcuts (Section 6 spec)                       */
+/*                                                                      */
+/*  NoData / ServerError / PermissionDenied wrap the same EmptyState    */
+/*  primitive above (same tokens, same layout, same icon set already   */
+/*  wired into the design system) so they stay visually consistent     */
+/*  with the rest of the library and require zero extra styling logic. */
+/* ------------------------------------------------------------------ */
+
+export interface NamedEmptyStateProps {
+  title?: string;
+  description?: string;
+  action?: React.ReactNode;
+  className?: string;
+}
+
+export function NoData({ title, description, action, className }: NamedEmptyStateProps) {
+  return (
+    <EmptyState
+      variant="noData"
+      title={title}
+      description={description}
+      action={action}
+      className={cn('border border-dashed', className)}
+      icon={<Database className="w-7 h-7" style={{ color: tokens.colors.text.muted }} />}
+    />
+  );
+}
+
+export function ServerError({ title, description, action, className }: NamedEmptyStateProps) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col items-center justify-center text-center py-12 px-6 rounded-md',
+        className,
+      )}
+      style={{
+        backgroundColor: tokens.colors.status.dangerBg,
+        border: `1px solid ${tokens.colors.status.danger}`,
+      }}
+      role="alert"
+    >
+      <div
+        className="flex items-center justify-center w-14 h-14 rounded-full mb-4"
+        style={{ backgroundColor: tokens.colors.bg.elevated }}
+      >
+        <AlertCircle className="w-7 h-7" style={{ color: tokens.colors.status.danger }} />
+      </div>
+      <h3
+        style={{
+          color: tokens.colors.text.primary,
+          fontSize: tokens.typography.fontSize.lg,
+          fontWeight: tokens.typography.fontWeight.bold,
+          marginBottom: tokens.spacing.xs,
+        }}
+      >
+        {title ?? 'Server Error'}
+      </h3>
+      <p
+        style={{
+          color: tokens.colors.text.secondary,
+          fontSize: tokens.typography.fontSize.sm,
+          maxWidth: '400px',
+          lineHeight: tokens.typography.lineHeight.normal,
+        }}
+      >
+        {description ?? 'The server encountered an error while processing this request.'}
+      </p>
+      {action && <div className="mt-6">{action}</div>}
+    </div>
+  );
+}
+
+export function PermissionDenied({ title, description, action, className }: NamedEmptyStateProps) {
+  return (
+    <EmptyState
+      variant="error"
+      title={title ?? 'Access Restricted'}
+      description={
+        description ?? 'You do not have the required clearance level to view this resource.'
+      }
+      action={action}
+      className={className}
+      icon={<ShieldAlert className="w-7 h-7" style={{ color: tokens.colors.status.warning }} />}
+    />
   );
 }
