@@ -16,6 +16,125 @@ import { tokens } from '@/design-system/tokens';
 import { X, AlertTriangle, CheckCircle, Info, XCircle } from '@/components/icons';
 
 /* ------------------------------------------------------------------ */
+/*  Modal – Lightweight Named Overlay (Section 11 addition)            */
+/*                                                                      */
+/*  A minimal, dependency-free modal used by simple confirmation/info  */
+/*  panels that don't need the full `Dialog` feature set (sizes,       */
+/*  variants, portal rendering, footer slots, etc). Coexists with the  */
+/*  richer `Dialog` / `ConfirmDialog` components below — pick whichever*/
+/*  fits: `Modal` for quick inline dialogs, `Dialog` for the full API. */
+/* ------------------------------------------------------------------ */
+
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handler);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+      }}
+    >
+      <div
+        onClick={onClose}
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(2px)',
+        }}
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '500px',
+          backgroundColor: tokens.colors.bg.elevated,
+          border: `1px solid ${tokens.colors.border.default}`,
+          borderRadius: tokens.borderRadius.md,
+          boxShadow: tokens.shadows.overlay,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div
+          style={{
+            padding: tokens.spacing.md,
+            borderBottom: `1px solid ${tokens.colors.border.subtle}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <h3
+            id="modal-title"
+            style={{
+              fontSize: tokens.typography.fontSize.base,
+              fontWeight: tokens.typography.fontWeight.bold,
+              color: tokens.colors.text.primary,
+            }}
+          >
+            {title}
+          </h3>
+          <button
+            type="button"
+            aria-label="Close Dialog"
+            onClick={onClose}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: tokens.colors.text.secondary,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <X size={16} />
+          </button>
+        </div>
+        <div style={{ padding: tokens.spacing.lg, overflowY: 'auto', maxHeight: '70vh' }}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ------------------------------------------------------------------ */
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 

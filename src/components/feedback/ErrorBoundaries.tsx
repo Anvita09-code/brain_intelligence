@@ -12,6 +12,7 @@
 import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 import { tokens } from '@/design-system/tokens';
 import { AlertTriangle, RefreshCw, Bug } from '@/components/icons';
+import { ServerError } from '@/components/display/EmptyStates';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -69,6 +70,54 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       );
     }
 
+    return this.props.children;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  ErrorBoundaryUI – Simple Named Boundary (Section 11 addition)      */
+/*                                                                      */
+/*  A minimal error boundary that renders the shared `ServerError`     */
+/*  empty-state on crash. Coexists with the richer, configurable       */
+/*  `ErrorBoundary` class above (custom fallback, onError callback,    */
+/*  reset button, stack trace panel) — use `ErrorBoundaryUI` for quick */
+/*  drop-in isolation around a subtree with no extra configuration.    */
+/*                                                                      */
+/*  NOTE: the originally pasted snippet returned `this.children`       */
+/*  (undefined on a class component) instead of `this.props.children`,*/
+/*  which would always render `null` for the happy path. Fixed below. */
+/* ------------------------------------------------------------------ */
+
+interface ErrorBoundaryUIProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryUIState {
+  hasError: boolean;
+}
+
+export class ErrorBoundaryUI extends Component<ErrorBoundaryUIProps, ErrorBoundaryUIState> {
+  public state: ErrorBoundaryUIState = { hasError: false };
+
+  public static getDerivedStateFromError(): ErrorBoundaryUIState {
+    return { hasError: true };
+  }
+
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Uncaught industrial UI exception:', error, errorInfo);
+  }
+
+  public render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '40px' }}>
+          <ServerError
+            title="Runtime Execution Isolated"
+            description="The component rendering pipeline was safely terminated via Architectural Safety Boundaries."
+          />
+        </div>
+      );
+    }
     return this.props.children;
   }
 }

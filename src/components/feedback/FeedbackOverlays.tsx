@@ -12,6 +12,7 @@ import {
   X,
   CheckCircle,
   AlertTriangle,
+  AlertCircle,
   XCircle,
   Info,
 } from '@/components/icons';
@@ -197,6 +198,54 @@ export function ToastContainer({
   if (typeof document === 'undefined') return null;
   return createPortal(content, document.body);
 }
+
+/* ------------------------------------------------------------------ */
+/*  AlertBanner – Simple Inline Alert (Section 11 addition)             */
+/*                                                                      */
+/*  A lighter-weight, non-dismissible inline alert strip used for      */
+/*  form/section-level validation and status messaging. Coexists with  */
+/*  the richer, dismissible `Banner` component below — `AlertBanner`   */
+/*  maps 'danger' | 'warning' | 'info' onto the same design tokens.    */
+/* ------------------------------------------------------------------ */
+
+export interface AlertBannerProps {
+  message: string;
+  variant?: 'danger' | 'warning' | 'info';
+}
+
+export const AlertBanner: React.FC<AlertBannerProps> = ({ message, variant = 'danger' }) => {
+  const variantStyles = {
+    danger: { bg: tokens.colors.status.dangerBg, border: tokens.colors.status.danger, text: tokens.colors.text.primary },
+    warning: { bg: tokens.colors.status.warningBg, border: tokens.colors.status.warning, text: tokens.colors.text.primary },
+    info: { bg: tokens.colors.status.infoBg, border: tokens.colors.status.info, text: tokens.colors.text.primary },
+  }[variant];
+
+  return (
+    <div
+      role="alert"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: tokens.spacing.md,
+        padding: tokens.spacing.md,
+        backgroundColor: variantStyles.bg,
+        borderLeft: `4px solid ${variantStyles.border}`,
+        borderRadius: tokens.borderRadius.sm,
+        margin: `${tokens.spacing.sm} 0`,
+      }}
+    >
+      <AlertCircle size={16} style={{ color: variantStyles.border, flexShrink: 0 }} />
+      <div
+        style={{
+          fontSize: tokens.typography.fontSize.sm,
+          color: variantStyles.text,
+        }}
+      >
+        {message}
+      </div>
+    </div>
+  );
+};
 
 /* ------------------------------------------------------------------ */
 /*  Banner                                                             */
