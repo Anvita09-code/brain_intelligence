@@ -23,6 +23,7 @@ const routes = [
   { name: 'Predictions', path: '/predictions', icon: TrendingUp },
   { name: 'Knowledge Graph', path: '/knowledge', icon: Network },
   { name: 'Co-Pilot Chat', path: '/chat', icon: MessageSquare },
+  { name: 'Loaders Demo', path: '/loaders-demo', icon: TrendingUp }, // NEW: Section 8 Demo
   { name: 'Settings', path: '/settings', icon: Settings },
   { name: 'Profile', path: '/profile', icon: User },
 ];
