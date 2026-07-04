@@ -1,3 +1,9 @@
+/**
+ * IOB Feedback Components – Barrel Export (Phase 2 – Section 12)
+ *
+ * Dialogs, toasts, banners, and error boundaries.
+ */
+
 export {
   Dialog,
   ConfirmDialog,
@@ -28,3 +34,16 @@ export {
   type AlertBannerProps,
   type FeedbackType,
 } from './FeedbackOverlays';
+
+// Loader – used by src/app/loading.tsx
+// Exported here for completeness of the feedback barrel.
+export {
+  default as Loader,
+  Loader as LoaderComponent,
+  type LoaderProps,
+} from './Loader';
+
+// Legacy ErrorBoundary (src/components/feedback/ErrorBoundary.tsx)
+// Kept for backward compatibility – aliased to avoid colliding with
+// the ErrorBoundary export from ErrorBoundaries.tsx above.
+export { default as LegacyErrorBoundary } from './ErrorBoundary';
