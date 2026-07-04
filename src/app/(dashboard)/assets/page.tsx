@@ -1,88 +1,70 @@
+/**
+ * Fleet-Wide Industrial Asset Registry – Assets Matrix Ecosystem
+ *
+ * Physical equipment directory, component tree classification node structure,
+ * and operational availability matrices.
+ *
+ * Route: /assets
+ * Layout: (dashboard) – inherits sidebar, header, breadcrumbs
+ *
+ * @version 3.0.0 – Phase 3 Industrial Platform
+ */
+
 import React from 'react';
 import Link from 'next/link';
 
-export default function AssetsMatrixPage() {
-  const assets = [
-    { id: 'TX-101', name: 'Primary Transformer Substation A', type: 'ELECTRICAL', status: 'ONLINE', health: 98.2, location: 'BUILDING-ALPHA' },
-    { id: 'TX-204', name: 'Secondary Distribution Transformer B', type: 'ELECTRICAL', status: 'ONLINE', health: 94.7, location: 'BUILDING-BETA' },
-    { id: 'PUMP-01A', name: 'High-Pressure Hydraulic Pump Unit', type: 'HYDRAULIC', status: 'DEGRADED', health: 72.3, location: 'LINE-1-SECTOR-C' },
-    { id: 'PUMP-02B', name: 'Coolant Circulation Pump Assembly', type: 'HYDRAULIC', status: 'ONLINE', health: 99.1, location: 'LINE-2-SECTOR-A' },
-    { id: 'ROBOT-ARM-6', name: 'Articulated 6-Axis Welding Robot', type: 'ROBOTICS', status: 'MAINTENANCE', health: 85.6, location: 'LINE-3-STATION-4' },
-    { id: 'CNC-MILL-3', name: '5-Axis CNC Milling Center', type: 'MACHINING', status: 'ONLINE', health: 91.4, location: 'LINE-2-STATION-1' },
-    { id: 'COMP-001', name: 'Industrial Air Compressor Unit', type: 'PNEUMATIC', status: 'ONLINE', health: 97.8, location: 'UTILITY-ZONE-NORTH' },
-    { id: 'VLV-MAIN-02', name: 'Main Isolation Valve Assembly', type: 'VALVE', status: 'CRITICAL', health: 45.2, location: 'LINE-1-SECTOR-A' },
-    { id: 'GEN-STBY-1', name: 'Diesel Standby Generator 500kVA', type: 'POWER', status: 'STANDBY', health: 100, location: 'UTILITY-ZONE-SOUTH' },
-    { id: 'SENSOR-TH-44', name: 'Thermocouple Array Node 44', type: 'SENSOR', status: 'ONLINE', health: 99.9, location: 'LINE-1-REACTOR' },
-  ];
-
+export default function FleetWideAssetDirectoryMatrix() {
   return (
     <div className="space-y-6">
+
+      {/* ── HEADER SECTION ── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-slate-800">
         <div>
-          <h1 className="text-xl font-bold font-mono tracking-tight text-white">FLEET-WIDE ASSET DIRECTORY MATRIX</h1>
-          <p className="text-xs text-slate-400 font-mono mt-0.5">Industrial asset hierarchy registry with real-time health telemetry and operational status mapping.</p>
+          <h1 className="text-xl font-bold font-mono tracking-tight text-white">FLEET-WIDE INDUSTRIAL ASSET REGISTRY</h1>
+          <p className="text-xs text-slate-400 font-mono mt-0.5">Physical equipment directory, component tree classification node structure, and operational availability matrices.</p>
         </div>
-        <div className="flex items-center gap-2 self-start sm:self-center">
-          <button type="button" className="px-3 py-1.5 font-mono text-[11px] rounded bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-300">ADD ASSET</button>
-          <button type="button" className="px-3 py-1.5 font-mono text-[11px] rounded bg-cyan-600 hover:bg-cyan-500 text-white font-semibold">BULK IMPORT</button>
-        </div>
+        <button type="button" className="px-3 py-1.5 font-mono text-[11px] rounded bg-cyan-600 hover:bg-cyan-500 text-white font-semibold self-start sm:self-center">REGISTER NOVO ASSET NODE</button>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* ── FILTER PANEL WIREFRAME CONTROLS ── */}
+      <div className="bg-[#0f172a] border border-slate-800 p-4 rounded grid grid-cols-1 sm:grid-cols-4 gap-3">
+        <input type="text" placeholder="QUERY INTERFACE SEARCH..." className="bg-slate-950 border border-slate-800 rounded px-3 py-1.5 font-mono text-xs text-slate-300 focus:outline-none focus:border-cyan-500" disabled />
+        <select className="bg-slate-950 border border-slate-800 rounded px-3 py-1.5 font-mono text-xs text-slate-400 focus:outline-none" disabled><option>PLANT LOCATION: ALL REGIONS</option></select>
+        <select className="bg-slate-950 border border-slate-800 rounded px-3 py-1.5 font-mono text-xs text-slate-400 focus:outline-none" disabled><option>CRITICALITY COMPONENT RATIO</option></select>
+        <select className="bg-slate-950 border border-slate-800 rounded px-3 py-1.5 font-mono text-xs text-slate-400 focus:outline-none" disabled><option>HEALTH: AGGREGATE SUMMARY</option></select>
+      </div>
+
+      {/* ── INDUSTRIAL ASSETS COMPREHENSIVE REGISTRY GRID ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { title: 'TOTAL REGISTERED ASSETS', val: '1,240', color: 'text-cyan-400' },
-          { title: 'ONLINE / OPERATIONAL', val: '1,187', color: 'text-emerald-400' },
-          { title: 'DEGRADED / WARNING', val: '39', color: 'text-amber-400' },
-          { title: 'CRITICAL / OFFLINE', val: '14', color: 'text-red-400' },
-        ].map((m, idx) => (
-          <div key={idx} className="bg-[#0f172a] border border-slate-800 p-4 rounded">
-            <div className="text-[10px] font-mono text-slate-500 tracking-wider mb-2">{m.title}</div>
-            <div className={`text-xl font-bold font-mono tracking-tight ${m.color}`}>{m.val}</div>
+          { tag: 'SYS-TURB-081', type: 'Heavy Centrifugal Turbine Gas Compressor', health: 94, area: 'Munich Processing Plant Line A', dev: '6 Sensors Embedded' },
+          { tag: 'SYS-PUMP-402', type: 'High-Pressure Submersible Fluid Inductor', health: 71, area: 'Rotterdam Refining Depot Terminal 2', dev: '4 Sensors Embedded' },
+          { tag: 'SYS-ROBT-119', type: 'Articulated Precision Assembly Robotic Node', health: 99, area: 'Stuttgart Automation Complex Line 4', dev: '12 Sensors Embedded' },
+          { tag: 'SYS-GENR-904', type: 'Emergency Baseload Synchronous Power Unit', health: 42, area: 'Austin Datacenter Critical Subsystem', dev: '8 Sensors Embedded' },
+          { tag: 'SYS-BOIL-331', type: 'Industrial Thermal Steam Heat Exchanger Vessel', health: 88, area: 'Houston Petrochemical Refinery Area D', dev: '5 Sensors Embedded' },
+        ].map((asset) => (
+          <div key={asset.tag} className="bg-[#0f172a] border border-slate-800 rounded flex flex-col justify-between p-4 hover:border-slate-700 transition-all duration-150">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-xs text-cyan-400 font-bold tracking-wider">{asset.tag}</span>
+                <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${asset.health > 90 ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/40' : asset.health > 60 ? 'bg-amber-950/60 text-amber-400 border-amber-800/40' : 'bg-red-950/60 text-red-400 border-red-800/40'}`}>
+                  HEALTH: {asset.health}%
+                </span>
+              </div>
+              <h3 className="text-sm font-sans font-bold text-slate-200 mb-1">{asset.type}</h3>
+              <p className="text-[11px] font-mono text-slate-500 mb-4">{asset.area}</p>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <span className="text-[10px] font-mono text-slate-500">{asset.dev}</span>
+              <Link href={`/assets/${asset.tag}`} className="text-[11px] font-mono text-cyan-400 hover:underline flex items-center gap-1">
+                EXAMINE CORE TWIN <span>→</span>
+              </Link>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="bg-[#0f172a] border border-slate-800 rounded">
-        <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-          <span className="text-xs font-mono font-bold text-slate-300">ASSET REGISTRY INDEX</span>
-          <input type="text" placeholder="SEARCH ASSETS..." className="bg-slate-900 border border-slate-700 rounded px-3 py-1 text-[11px] font-mono text-slate-300 placeholder-slate-600 w-48 focus:outline-none focus:border-cyan-500/50" />
-        </div>
-        <div className="p-4 overflow-x-auto">
-          <table className="w-full text-left font-mono text-xs border-collapse">
-            <thead>
-              <tr className="border-b border-slate-800 text-slate-500">
-                <th className="pb-3 font-medium">ASSET ID</th>
-                <th className="pb-3 font-medium">DESIGNATION</th>
-                <th className="pb-3 font-medium">TYPE CLASS</th>
-                <th className="pb-3 font-medium">LOCATION NODE</th>
-                <th className="pb-3 font-medium">HEALTH INDEX</th>
-                <th className="pb-3 font-medium text-right">OPERATIONAL STATE</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800">
-              {assets.map((a) => (
-                <tr key={a.id} className="hover:bg-slate-900/40 transition-colors">
-                  <td className="py-3 text-cyan-400 font-semibold"><Link href={`/assets/${a.id}`} className="hover:underline">{a.id}</Link></td>
-                  <td className="py-3 text-slate-300 font-sans text-xs">{a.name}</td>
-                  <td className="py-3 text-slate-400">{a.type}</td>
-                  <td className="py-3 text-slate-400">{a.location}</td>
-                  <td className="py-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full ${a.health >= 90 ? 'bg-emerald-500' : a.health >= 70 ? 'bg-amber-500' : 'bg-red-500'}`} style={{ width: `${a.health}%` }} />
-                      </div>
-                      <span className="text-slate-400">{a.health}%</span>
-                    </div>
-                  </td>
-                  <td className="py-3 text-right">
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-bold ${a.status === 'ONLINE' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/40' : a.status === 'DEGRADED' ? 'bg-amber-950 text-amber-400 border border-amber-800/40' : a.status === 'MAINTENANCE' ? 'bg-blue-950 text-blue-400 border border-blue-800/40' : a.status === 'STANDBY' ? 'bg-slate-900 text-slate-400 border border-slate-800' : 'bg-red-950 text-red-400 border border-red-800/40'}`}>{a.status}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   );
 }
