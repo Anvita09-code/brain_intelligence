@@ -1,13 +1,11 @@
 /**
- * Root Layout – Updated to use Phase 2 Design System (Phase 2)
+ * Root Layout – IOB Global App Shell
  *
- * Changes from existing layout.tsx:
- *   - Added JetBrains Mono font for telemetry/monospace displays
- *   - DesignSystemProvider is now injected via GlobalProviders
- *   - Kept existing MUI AppRouterCacheProvider for MUI compatibility
+ * Provides font pipeline, MUI AppRouter cache, and GlobalProviders
+ * (QueryClient, DesignSystem). The dashboard shell (sidebar, header,
+ * breadcrumbs) lives in the (dashboard) route group layout.
  *
- * NOTE: The DesignSystemProvider is now inside GlobalProviders,
- * so you don't need to add it here separately.
+ * @version 3.0.0 – Phase 3 Industrial Platform Shell
  */
 
 import type { Metadata } from 'next';
@@ -30,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: 'Industrial Operating Brain (IOB)',
-  description: 'Enterprise Industry 5.0 Intelligent Monitoring Platform',
+  description: 'Next-Generation Industry 5.0 Core Operating Platform',
 };
 
 export default function RootLayout({
@@ -41,13 +39,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      className={`dark h-full ${inter.variable} ${jetbrainsMono.variable}`}
+      style={{ backgroundColor: '#090d16', color: '#f3f4f6' }}
     >
-      <body id="__next_root">
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <GlobalProviders>
-            {children}
-          </GlobalProviders>
+      <body className="h-full font-sans antialiased overflow-hidden">
+        <AppRouterCacheProvider>
+          <GlobalProviders>{children}</GlobalProviders>
         </AppRouterCacheProvider>
       </body>
     </html>

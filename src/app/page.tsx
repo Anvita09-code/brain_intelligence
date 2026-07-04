@@ -1,5 +1,8 @@
 import { redirect } from 'next/navigation';
 
-export default function RootPage() {
+/**
+ * Root gateway – redirects to the enterprise operations hub.
+ */
+export default async function IndexGatewayPage() {
   redirect('/dashboard');
 }
