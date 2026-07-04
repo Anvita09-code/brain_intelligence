@@ -20,8 +20,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { themeStyles } from './design-system/theme';
-import { Activity, Cpu, Sliders, AlertTriangle } from './components/icons';
+import { themeStyles } from './src/design-system/theme';
+import { Activity, Cpu, Sliders, AlertTriangle } from './src/components/icons';
 import {
   DashboardWrapper,
   Sidebar,
@@ -48,7 +48,7 @@ import {
   Modal,
   AlertBanner,
   ErrorBoundaryUI,
-} from './components';
+} from './src/components';
 
 export default function App() {
   // Inject the centralized Design System theme engine variables into the DOM lifecycle
