@@ -1,33 +1,27 @@
+/**
+ * Dashboard Page – Section 13 Production Integration Matrix
+ *
+ * This page now renders the full Section 13 verification harness (App.tsx)
+ * which exercises all Phase 2 component library primitives in a single
+ * isolated topology.
+ *
+ * Integration wiring:
+ * - The (dashboard)/layout.tsx provides the outer shell (Sidebar, Navbar, Footer)
+ * - This page renders the App component which uses its own DashboardWrapper
+ *   with prop-based Sidebar and Navbar (Section 13 API)
+ * - The App component injects the design system CSS via themeStyles.injectCSS()
+ *
+ * If you need the legacy dashboard view, rename this file and restore
+ * the original page.tsx content from git history.
+ *
+ * @version 2.13.0
+ */
+
+'use client';
+
 import React from 'react';
-import { Typography } from '@/components/ui/Typography';
-import { SystemHealthPanel } from '@/components/status';
-import { Grid, Section, Spacer } from '@/components/layout/Structural';
-import { LineChartContainer, GaugeContainer, NetworkGraphContainer } from '@/components/charts';
+import App from '@/App';
 
 export default function DashboardPage() {
-  return (
-    <div className="space-y-4">
-      <Typography variant="h4">System Telemetry Dashboard</Typography>
-      <Typography variant="body1" className="text-industrial-slate">
-        Live UI-health and subsystem status tracking for the Industrial
-        Operating Brain.
-      </Typography>
-
-      {/* Section: Status & Health Tracking Architecture */}
-      <SystemHealthPanel />
-
-      <Section>
-        <Typography variant="h6" style={{ marginBottom: '16px' }}>
-          Abstract Data Visualization Overlays
-        </Typography>
-        <Grid columns={3} gap="lg">
-          <LineChartContainer title="Network Throughput (Real-time)" />
-          <GaugeContainer title="CPU Load" value="42%" />
-          <GaugeContainer title="Memory Usage" value="68%" />
-        </Grid>
-        <Spacer size="lg" />
-        <NetworkGraphContainer title="Digital Twin Topology Mesh" height="400px" />
-      </Section>
-    </div>
-  );
+  return <App />;
 }
